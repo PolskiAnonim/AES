@@ -1,8 +1,7 @@
 #include "Helpers.h"
+#include <iomanip>
 
-using std::vector;
-using std::ifstream;
-using std::string;
+using namespace std;
 
 int NUM_THREADS = 16;
 
@@ -28,6 +27,31 @@ const vector<unsigned char> read_file(string file_path)
 	return data;
 }
 
+const std::vector<unsigned char> read_hex_file(std::string file_path)
+{
+	vector<unsigned char> data;
+	ifstream infile;
+
+	infile.open(file_path);
+
+	unsigned int byte;
+	std::string hex_byte;
+
+	while (!infile.eof())
+	{
+		infile >> hex_byte;
+		std::stringstream ss;
+		ss << hex_byte;
+		ss >> std::hex >> byte;
+		data.push_back(static_cast<unsigned char>(byte));
+	}
+
+	infile.close();
+
+	return data;
+}
+
+
 bool check_byte_arrays(const std::vector<unsigned char>& arr1, const std::vector<unsigned char>& arr2)
 {
 	if (arr1.size() != arr2.size())
@@ -45,14 +69,17 @@ bool check_byte_arrays(const std::vector<unsigned char>& arr1, const std::vector
 	return true;
 }
 
-const void write_file(float enc_time, float dec_time) {
-	std::ofstream out("wyniki.txt", std::ios::app);
-	out << NUM_THREADS << " " << enc_time << " " << dec_time << std::endl;
-}
-
 const void write_file(vector<unsigned char> text, string filename) {
 	std::ofstream out(filename);
 	for (auto& c : text) {
 		out << c;
+	}
+}
+
+const void write_hex_file(vector<unsigned char> text, string filename) {
+	std::ofstream out(filename);
+	for (int i = 0; i < text.size(); i++) {
+		const unsigned char c = text[i];
+		out << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c) << " ";
 	}
 }

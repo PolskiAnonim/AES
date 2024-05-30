@@ -3,13 +3,16 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 
 const std::vector<unsigned char> read_file(std::string file_path);
+const std::vector<unsigned char> read_hex_file(std::string file_path);
 
 bool check_byte_arrays(const std::vector<unsigned char>& arr1, const std::vector<unsigned char>& arr2);
 
-const void write_file(float enc_time, float dec_time);
 const void write_file(std::vector <unsigned char> text, std::string filename);
+const void write_hex_file(std::vector <unsigned char> text, std::string filename);
 
 const unsigned char sbox[16][16] = {
     {0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b,
