@@ -124,26 +124,6 @@ __device__ void AddRoundKey(unsigned char state[4][4], unsigned char* key) {
     }
 }
 
-__device__ void SubWord(unsigned char* a) {
-    for (int i = 0; i < 4; i++) {
-        a[i] = sbox[a[i] / 16][a[i] % 16];
-    }
-}
-
-__device__ void RotWord(unsigned char* a) {
-    unsigned char c = a[0];
-    a[0] = a[1];
-    a[1] = a[2];
-    a[2] = a[3];
-    a[3] = c;
-}
-
-__device__ void XorWords(unsigned char* a, unsigned char* b, unsigned char* c) {
-    for (int i = 0; i < 4; i++) {
-        c[i] = a[i] ^ b[i];
-    }
-}
-
 __device__ void InvSubBytes(unsigned char state[4][4]) {
     int i, j;
     unsigned char t;
